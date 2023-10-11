@@ -5,3 +5,6 @@
 body{
     @apply bg-[rgb(248,249,250)]
 }
+/* .active{
+    @apply bg-gradient-to-r from-cyan-400 to-cyan-500 text-white shadow-lg 
+} */

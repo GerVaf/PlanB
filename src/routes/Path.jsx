@@ -13,6 +13,7 @@ import BlogEdit from "../pages/BlogEdit";
 import BlogView from "../pages/BlogView";
 import Login from "../pages/Login";
 import RouteGuard from "./RouteGuard";
+import Pending from "../pages/Pending";
 
 const Path = () => {
   const routes = [
@@ -37,7 +38,7 @@ const Path = () => {
       element: <BlogView />,
     },
     {
-      path: "myBlogs",
+      path: "list/myBlogs",
       element: <MyBlogs />,
     },
     {
@@ -51,6 +52,9 @@ const Path = () => {
     {
       path: "setting",
       element: <Setting />,
+    },{
+      path: "list/pending",
+      element: <Pending />,
     },
   ];
   return (
