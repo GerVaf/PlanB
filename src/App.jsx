@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "./pages/Sidebar";
+import Path from "./routes/Path";
 
 const App = () => {
   return (
