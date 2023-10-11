@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { BiSolidNotepad, BiSolidContact } from "react-icons/bi";
-import { HiMiniHome } from "react-icons/hi2";
+import { BiSolidNotepad } from "react-icons/bi";
+import { HiMiniHome, HiVideoCamera } from "react-icons/hi2";
 import { HiMail } from "react-icons/hi";
 import { FaClipboardList } from "react-icons/fa";
 import { BsCameraReelsFill, BsFillPatchExclamationFill } from "react-icons/bs";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { RxDash } from "react-icons/rx";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState(1);
@@ -14,31 +15,37 @@ const Sidebar = () => {
     {
       id: 1,
       name: "Menu",
+      path: "/",
       icon: <HiMiniHome />,
     },
     {
       id: 2,
       name: "List",
+      // path: 'list',
       icon: <BiSolidNotepad />,
       child: [
         {
           id: 1,
           name: "Pending",
+          path: "pending",
         },
         {
           id: 2,
-          name: "List",
+          name: "Blog Lists",
+          path: "list",
         },
         {
           id: 3,
           name: "My Blogs",
+          path: "myBlogs",
         },
       ],
     },
     {
       id: 3,
-      name: "Menu",
-      icon: <BsCameraReelsFill />,
+      name: "Program",
+      path: "program",
+      icon: <HiVideoCamera />,
     },
   ];
 
@@ -52,7 +59,8 @@ const Sidebar = () => {
       <div className="w-[90%] mt-20 flex flex-col gap-8">
         {mainMenu.map((el) => {
           return (
-            <div
+            <NavLink
+              to={el.path}
               key={el.id}
               onClick={() => toggleActive(el.id)}
               className={`${
@@ -72,7 +80,7 @@ const Sidebar = () => {
                 <p>{el.name}</p>
               </div>
               {el.child ? <MdOutlineKeyboardArrowDown /> : <RxDash />}
-            </div>
+            </NavLink>
           );
         })}
       </div>

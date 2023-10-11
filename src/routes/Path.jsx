@@ -60,9 +60,9 @@ const Path = () => {
         <Route
           path="/"
           element={
-            <RouteGuard>
+            // <RouteGuard>
               <Layout />
-            </RouteGuard>
+            // </RouteGuard>
           }
         >
           <Route index element={<Dashboard />} />
