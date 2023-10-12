@@ -1,9 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400;500;600;700&family=Padauk:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
-    @apply bg-[rgb(248,249,250)]
+* {
+  font-family: "AR One Sans", sans-serif;
+  /* font-family: "Padauk", sans-serif; */
+}
+body {
+  @apply bg-[rgb(248,249,250)] text-[#344767]
 }
 /* .active{
     @apply bg-gradient-to-r from-cyan-400 to-cyan-500 text-white shadow-lg 

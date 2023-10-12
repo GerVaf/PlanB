@@ -11,7 +11,7 @@ const Layout = () => {
       </div>
       <div className="flex flex-col w-5/6">
         <Header />
-        <div className="h-[90%] scrollbar-none overflow-y-scroll">
+        <div className="h-[85%] p-10">
           {<Outlet />}
         </div>
       </div>

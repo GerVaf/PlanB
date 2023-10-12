@@ -6,6 +6,7 @@ import DashLatest from "../components/Dashboard/DashLatest";
 import { Select } from "@mantine/core";
 import { useState } from "react";
 import DashToDoList from "../components/Dashboard/DashToDoList";
+import Globe from "../components/Dashboard/Globe";
 
 const Dashboard = () => {
   const [selectValue, setSelectValue] = useState("");
@@ -64,7 +65,9 @@ const Dashboard = () => {
         </div>
 
         {/* Globe */}
-        <div className="col-span-6"></div>
+        <div className="col-span-6 mx-auto my-auto ">
+          <Globe/>
+        </div>
 
         {/* Trending and Latest News */}
         {/* Trending */}
