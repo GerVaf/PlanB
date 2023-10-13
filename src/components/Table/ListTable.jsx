@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import publish from "../../../public/publish.svg";
 import publishActive from "../../../public/publishActive.svg";
 import { RxDash } from "react-icons/rx";
+import { useDispatch } from "react-redux";
+import { addDetail } from "../../Global/Slice/BlogSlice";
+import { useNavigate } from "react-router-dom";
 
 const ListTable = ({ data }) => {
   console.log(data);
-
+  const dispatch = useDispatch();
+  const nav = useNavigate()
   // for check and collect id
   const [checkedItems, setCheckedItems] = useState([]);
   const [blogs, setBlogs] = useState([]);
@@ -96,7 +100,11 @@ const ListTable = ({ data }) => {
 
               <p className="col-span-1">{el?.date}</p>
               <div className="col-span-1 text-blue-500 underline cursor-pointer flex items-center justify-center gap-3">
-                <p>Edit</p>
+                <p onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch(addDetail(el));
+                        nav(`/edit`);
+                      }}>Edit</p>
                 <p>Delete</p>
               </div>
             </div>
