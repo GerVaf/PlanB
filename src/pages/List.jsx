@@ -3,8 +3,29 @@ import React, { useEffect } from "react";
 import ListTable from "../components/Table/ListTable";
 import { useState } from "react";
 import { get } from "../Global/api";
+import { motion } from "framer-motion";
 
 const List = () => {
+  const [cate, setCate] = useState([
+    {
+      id: 1,
+      title: "All",
+      name: "",
+      active: true,
+    },
+    {
+      id: 2,
+      title: "Sport",
+      name: "sport",
+      active: false,
+    },
+    {
+      id: 3,
+      title: "Music",
+      name: "music",
+      active: false,
+    },
+  ]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,8 +41,13 @@ const List = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await get(`/blogs?page=${page}&limit=${limit}`);
-        // console.log(response);
+        const response = await get(
+          `/blogs?&category=${
+            cate.find((category) => category.active).name
+          }&page=${page}&limit=${limit}
+          `
+        );
+        console.log(response);
         setData(response?.data?.data);
         setPagination(response?.data?.pagination);
         setLoading(false);
@@ -31,7 +57,7 @@ const List = () => {
     };
 
     fetchData();
-  }, [page, limit]);
+  }, [page, limit, cate]);
 
   if (loading) {
     return (
@@ -41,12 +67,60 @@ const List = () => {
     );
   }
 
+  // for cate animation
+
+  const handleCategoryClick = (categoryId) => {
+    const updatedCategories = cate.map((category) => {
+      if (category.id === categoryId) {
+        return { ...category, active: true };
+      } else {
+        return { ...category, active: false };
+      }
+    });
+    setCate(updatedCategories);
+  };
+
+  const getActiveDivRight = () => {
+    const activeCategory = cate.find((category) => category.active);
+    if (activeCategory.title === "All") {
+      return 256;
+    } else if (activeCategory.title === "Sport") {
+      return 128;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <div>
       {/* Header */}
-      <h1 className="font-bold text-3xl text-[#344767]">Blog List</h1>
+      <div className="flex justify-between">
+        <h1 className="font-bold text-3xl text-[#344767]">Blog List</h1>
+        {/* category  */}
+        <div className="bg-violet-100 p-1 rounded-2xl">
+          <div className="flex relative">
+            {cate.map((el) => {
+              return (
+                <div
+                  key={el.id}
+                  className={`bg-violet-100 w-32 px-10 py-1 cursor-pointer`}
+                  onClick={() => handleCategoryClick(el.id)}
+                >
+                  <p className="relative z-20 text-center">{el.title}</p>
+                </div>
+              );
+            })}
+            <motion.div
+              className="z-10 absolute w-32 h-full rounded-xl bg-white"
+              initial={{ right: getActiveDivRight() }}
+              animate={{ right: getActiveDivRight() }}
+              transition={{ duration: 0.3 }}
+            ></motion.div>
+          </div>
+        </div>
+      </div>
+      {/* body  */}
       <div className="shadow-lg rounded-md border mt-5">
-        
         {/* Filter entries select and Add program Button*/}
         <div className="px-3 py-5 border-b flex items-center justify-between">
           <div className="flex items-center gap-2">
