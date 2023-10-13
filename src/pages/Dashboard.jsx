@@ -10,10 +10,11 @@ import DashToDoList from "../components/Dashboard/DashToDoList";
 const Dashboard = () => {
   const [selectValue, setSelectValue] = useState("");
   return (
-    <div className="p-5">
+    <div className="">
       {/* Header */}
       <div className="flex items-center gap-3">
         <h1 className="font-bold text-3xl text-[#344767]">Dashboard</h1>
+        {/* Select */}
         <Select
           className="w-[120px]"
           value={selectValue}
