@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { get } from "../../Global/api";
 
 const DashToDoList = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await get(`/blogs?pending=true`);
+        // console.log(response);
+        setData(response?.data?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="bg-white shadow-lg rounded-xl">
       {/* Header */}
@@ -10,19 +26,33 @@ const DashToDoList = () => {
 
       {/* Lists */}
       <div className="py-2 h-[500px] overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700/60 ">
-        <div className="my-3 py-3 px-5 border-b grid grid-cols-12 overflow-hidden transition-shadow hover:shadow-sm">
-          <div className="col-span-2 h-full flex gap-2 flex-col">
-            {/* Author */}
-            <p className="font-semibold">Wai Linn Aung</p>
-          </div>
-          <div className="col-span-6 overflow-hidden">
-            {/* Title */}
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati veniam quia tenetur cumque? Deserunt molestias</p>
-          </div>
-          <div className="col-span-4">
-            <span className="font-bold text-lg">Note: <span>Somthing Missing</span></span>
-          </div>
-        </div>
+        {data?.map((el) => {
+          return (
+            <div
+              key={el?.id}
+              className="my-3 py-3 px-5 border-b grid grid-cols-12 overflow-hidden transition-shadow hover:shadow-sm"
+            >
+              <div className="col-span-2 h-full flex gap-2 flex-col">
+                {/* Author */}
+                <p className="font-semibold">{el?.author}</p>
+              </div>
+              <div className="col-span-6 overflow-hidden">
+                {/* Title */}
+                <p>{el?.title}</p>
+              </div>
+              {/* note  */}
+              <div className="col-span-4">
+                <span className="font-semibold text-lg">
+                  {el?.todo.length === 0
+                    ? "There's no note."
+                    : el?.todo?.map((toDo) => {
+                        return <span key={toDo}> {toDo} ,</span>;
+                      })}
+                </span>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

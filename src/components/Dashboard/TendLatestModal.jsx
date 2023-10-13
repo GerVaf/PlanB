@@ -2,14 +2,14 @@ import { Center, Modal, Pagination } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
-import publish from "../../assets/publish.svg";
-import publishActive from "../../assets/publishActive.svg";
+import publish from "../../../public/publish.svg";
+import publishActive from "../../../public/publishActive.svg";
 import Cookies from "js-cookie";
 import { get } from "../../Global/api";
 import { useDispatch } from "react-redux";
 import { addDetail } from "../../Global/Slice/BlogSlice";
 import { useNavigate } from "react-router-dom";
-import Loading from "../Loading/Loading";
+// import Loading from "../Loading/Loading";
 
 const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
   // console.log(parent)
