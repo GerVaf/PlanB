@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import ProgramCard from "../components/Program/ProgramCard";
+import ProgramCard from "../components/Program/ProgramCard"; // Import the ProgramCard component
+import { get } from "../Global/api";
+import { useDispatch, useSelector } from "react-redux";
+import { productionTable, programTitle } from "../Global/Slice/BlogSlice";
+import ProgramList from "../components/Table/ProgramList";
 
 const Program = () => {
   const [cate, setCate] = useState([
@@ -24,6 +28,8 @@ const Program = () => {
     },
   ]);
 
+  // for category animatin
+
   const handleCategoryClick = (categoryId) => {
     const updatedCategories = cate.map((category) => {
       if (category.id === categoryId) {
@@ -46,11 +52,47 @@ const Program = () => {
     }
   };
 
+  // for program
+  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // ?category=${cate.find((category) => category.active).name}
+        const response = await get(`/programs`);
+
+        if (response.status === 200) {
+          setData(response?.data?.data);
+          dispatch(productionTable(null));
+        } else {
+          console.error("Failed to fetch datass");
+        }
+
+        console.log(response);
+        // Update setData with the response data
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [cate]);
+
+  // to look program's blogs
+  const ProgramTable = useSelector((state) => state?.blog?.production_table);
+
+  console.log(ProgramTable);
+
+  const handleItemClick = (item) => {
+    dispatch(productionTable(item));
+  };
+
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between font-bold">
         <h1 className="text-3xl">Program</h1>
-        {/* category chose  */}
+        {/* category  */}
         <div className="bg-violet-100 p-1 rounded-2xl">
           <div className="flex relative">
             {cate.map((el) => {
@@ -64,7 +106,6 @@ const Program = () => {
                 </div>
               );
             })}
-            {/* active div with dynamic right property and animation */}
             <motion.div
               className="z-10 absolute w-32 h-full rounded-xl bg-white"
               initial={{ right: getActiveDivRight() }}
@@ -74,11 +115,34 @@ const Program = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-3 mt-10">
-        <div className=" col-span-1">
-          <ProgramCard />
-        </div>
+
+      {/* program list  */}
+      <div className="grid grid-cols-3 gap-5 mt-10">
+        {data?.map((el) => {
+          return (
+            <div
+              onClick={() => handleItemClick(el)}
+              key={el.id}
+              className=" col-span-1"
+            >
+              <ProgramCard el={el} />
+            </div>
+          );
+        })}
       </div>
+
+      {/* program including blogs  */}
+      {ProgramTable === null ? (
+        <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
+          Select one of program!
+        </p>
+      ) : ProgramTable?.blog_count === 0 ? (
+        <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
+          There's no blogs!
+        </p>
+      ) : (
+        <ProgramList />
+      )}
     </div>
   );
 };

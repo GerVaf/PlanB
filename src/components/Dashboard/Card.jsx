@@ -1,12 +1,12 @@
 import React from "react";
 import { HiVideoCamera } from "react-icons/hi";
-const Card = () => {
+const Card = ({ data, title }) => {
   return (
     <div className="flex justify-between items-center bg-white rounded-xl shadow-lg px-3 py-2">
       {/* Left Text and Number */}
       <div className="flex flex-col gap-1">
-        <h1 className="text-lg font-semibold text-slate-900/80">Blogs</h1>
-        <p className="text-2xl font-bold text-[#344767]">20</p>
+        <h1 className="text-lg font-semibold text-slate-900/80">{title}</h1>
+        <p className="text-2xl font-bold text-[#344767]">{data}</p>
       </div>
       {/* Right Icon */}
       <div

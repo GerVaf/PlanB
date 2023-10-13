@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../components/Dashboard/Card";
 import DashInbox from "../components/Dashboard/DashInbox";
 import DashTrending from "../components/Dashboard/DashTrending";
@@ -7,9 +7,26 @@ import { Select } from "@mantine/core";
 import { useState } from "react";
 import DashToDoList from "../components/Dashboard/DashToDoList";
 import Globe from "../components/Dashboard/Globe";
+import { get } from "../Global/api";
 
 const Dashboard = () => {
-  const [selectValue, setSelectValue] = useState("");
+  const [data, setData] = useState([]);
+  const [type, setType] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await get(`/dashboard?category=${type}`);
+        // console.log(response);
+        setData(response?.data?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [type]);
+
   return (
     <div className="">
       {/* Header */}
@@ -18,8 +35,8 @@ const Dashboard = () => {
         {/* Select */}
         <Select
           className="w-[120px]"
-          value={selectValue}
-          onChange={setSelectValue}
+          value={type}
+          onChange={setType}
           data={[
             { value: "", label: "All" },
             { value: "sport", label: "Sport" },
@@ -46,29 +63,25 @@ const Dashboard = () => {
           {/* Cards */}
           <div className="grid grid-cols-12 gap-5">
             <div className="col-span-6">
-              <Card />
+              <Card title={"Blog Lists"} data={data?.list_count} />
             </div>
             <div className="col-span-6">
-              <Card />
+              <Card title={"Pending Lists"} data={data?.pending_count} />
             </div>
             <div className="col-span-6">
-              <Card />
-            </div>
-            <div className="col-span-6">
-              <Card />
+              <Card title={"Program Lists"} data={data?.program_count} />
             </div>
           </div>
 
-          {/* Inbox */}
+          {/* Todo List */}
           <div className="col-span-6 mt-5">
-            <DashInbox />
+            <DashToDoList />
           </div>
         </div>
 
         {/* Globe */}
-        <div className="col-span-6 mx-auto my-auto ">
-          {/* <Globe/> */}
-        </div>
+
+        <div className="col-span-6 mx-auto my-auto ">{/* <Globe/> */}</div>
 
         {/* Trending and Latest News */}
         {/* Trending */}
@@ -79,11 +92,6 @@ const Dashboard = () => {
         {/* Latest */}
         <div className="col-span-6">
           <DashLatest />
-        </div>
-
-        {/* Todo List */}
-        <div className="col-span-12">
-          <DashToDoList />
         </div>
       </div>
     </div>

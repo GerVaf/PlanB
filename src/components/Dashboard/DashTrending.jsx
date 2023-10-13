@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsFillPlusSquareFill } from "react-icons/bs";
 import { FaTrashCan } from "react-icons/fa6";
+import TrendLatestModal from "./TendLatestModal";
+import { useDisclosure } from "@mantine/hooks";
+import { get } from "../../Global/api";
+
 const DashTrending = () => {
+  const [opened, { open, close }] = useDisclosure(false);
+  const [refresh, setRefresh] = useState(false);
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await get(`/blogs/tag/trending`);
+        console.log(response);
+        setData(response?.data?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       {/* list table modal  */}
@@ -10,7 +33,7 @@ const DashTrending = () => {
         close={close}
         refresh={refresh}
         setRefresh={setRefresh}
-        par
+        parent={'trending'}
       /> */}
       <div className="bg-white shadow-lg rounded-xl">
         {/* Header */}
@@ -19,6 +42,7 @@ const DashTrending = () => {
             Trending News
           </h1>
           <div
+            onClick={open}
             className={
               "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white text-xl p-3 rounded-lg shadow-lg"
             }
@@ -29,18 +53,24 @@ const DashTrending = () => {
 
         {/* Lists */}
         <div className="p-2 h-[500px] overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700/60 ">
-          <div className="my-3 grid grid-cols-12 rounded-md border overflow-hidden relative transition-shadow hover:shadow-lg">
+         
+         {data?.map(el=>{
+            return(
+              <div key={el.id} className="my-3 grid grid-cols-12 rounded-md border overflow-hidden relative transition-shadow hover:shadow-lg">
+            {/* image  */}
             <div className="col-span-5">
               <img
                 className="w-full h-full object-cover"
-                src="https://images.unsplash.com/photo-1682686581551-867e0b208bd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60"
+                src={el?.images.url}
                 alt=""
               />
             </div>
+            {/* right side  */}
             <div className="col-span-7 flex flex-col gap-4 w-full p-3">
+              {/* category and delete  */}
               <div className="flex justify-between items-center gap-2">
                 <p className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-cyan-500 text-white rounded-full py-1 px-5">
-                  Music
+                  {el?.category}
                 </p>
                 <div
                   className={
@@ -50,12 +80,16 @@ const DashTrending = () => {
                   <FaTrashCan />
                 </div>
               </div>
+              {/* title and author  */}
               <div className="h-full flex gap-2 flex-col">
-                <p className="text-lg font-medium">Title : Hello World</p>
-                <p className="text-base">Author : Wai Linn Aung</p>
+                <p className="text-lg font-medium">Title : {el?.title}</p>
+                <p className="text-base">Author : {el?.author}</p>
               </div>
             </div>
           </div>
+            )
+          })}
+          
         </div>
       </div>
     </>
