@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const token = Cookies.get("token");
 // console.log(token)
 
-const baseUrl = "https://walrus-app-irtfc.ondigitalocean.app";
+const baseUrl = "https://api.opaqueindustries.news";
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,

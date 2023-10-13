@@ -58,7 +58,7 @@ const Sidebar = () => {
   }, [location.pathname, mainMenu]);
 
   return (
-    <div className="w-full flex flex-col justify-center items-center gap-10 my-10 ">
+    <div className="w-full flex flex-col justify-center items-center gap-10 my-10">
       <img className="px-10 h-20 border-b-2 w-full" src={logo} alt="" />
       <div className="w-[90%] flex flex-col gap-8">
         {mainMenu.map((el) => (
