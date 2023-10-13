@@ -80,6 +80,7 @@ const Dashboard = () => {
         </div>
 
         {/* Globe */}
+
         <div className="col-span-6 mx-auto my-auto ">{/* <Globe/> */}</div>
 
         {/* Trending and Latest News */}
