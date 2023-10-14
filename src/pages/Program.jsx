@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import ProgramCard from "../components/Program/ProgramCard"; // Import the ProgramCard component
 import { get } from "../Global/api";
 import { useDispatch, useSelector } from "react-redux";
-import { productionTable, programTitle } from "../Global/Slice/BlogSlice";
+import { productionTable } from "../Global/Slice/BlogSlice";
 import ProgramList from "../components/Table/ProgramList";
 
 const Program = () => {
@@ -27,9 +27,7 @@ const Program = () => {
       active: false,
     },
   ]);
-
-  // for category animatin
-
+  //for cate animation
   const handleCategoryClick = (categoryId) => {
     const updatedCategories = cate.map((category) => {
       if (category.id === categoryId) {
@@ -63,8 +61,8 @@ const Program = () => {
         const response = await get(`/programs`);
 
         if (response.status === 200) {
-          setData(response?.data?.data);
           dispatch(productionTable(null));
+          setData(response?.data?.data);
         } else {
           console.error("Failed to fetch datass");
         }
@@ -132,17 +130,19 @@ const Program = () => {
       </div>
 
       {/* program including blogs  */}
-      {ProgramTable === null ? (
-        <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
-          Select one of program!
-        </p>
-      ) : ProgramTable?.blog_count === 0 ? (
-        <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
-          There's no blogs!
-        </p>
-      ) : (
-        <ProgramList />
-      )}
+      <div className="mt-20">
+        {ProgramTable === null ? (
+          <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
+            Select one of program!
+          </p>
+        ) : ProgramTable?.blog_count === 0 ? (
+          <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
+            There's no blogs!
+          </p>
+        ) : (
+          <ProgramList />
+        )}
+      </div>
     </div>
   );
 };
