@@ -21,7 +21,7 @@ const Dashboard = () => {
         // console.log(response);
         setData(response?.data?.data);
       } catch (error) {
-        console.log(error);
+        if (error) return window.location.reload();
       }
     };
 
@@ -81,7 +81,9 @@ const Dashboard = () => {
         </div>
 
         {/* Globe */}
+
         <div className="col-span-6 flex justify-center items-center my-auto">
+
           <Globe />
         </div>
 

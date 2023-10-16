@@ -52,7 +52,8 @@ const Path = () => {
     {
       path: "setting",
       element: <Setting />,
-    },{
+    },
+    {
       path: "list/pending",
       element: <Pending />,
     },
@@ -64,9 +65,9 @@ const Path = () => {
         <Route
           path="/"
           element={
-            // <RouteGuard>
+            <RouteGuard>
               <Layout />
-            // </RouteGuard>
+            </RouteGuard>
           }
         >
           <Route index element={<Dashboard />} />

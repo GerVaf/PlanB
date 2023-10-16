@@ -11,10 +11,13 @@ export const userSlice = createSlice({
     collectInfo: (state, { payload }) => {
       state.user_info = payload;
     },
+    logOut:(state,{payload})=>{
+      state.user_info = payload
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { collectInfo } = userSlice.actions;
+export const { collectInfo,logOut } = userSlice.actions;
 
 export default userSlice.reducer;
