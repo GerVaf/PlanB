@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { BiSolidNotepad } from "react-icons/bi";
 import { HiMiniHome, HiVideoCamera } from "react-icons/hi2";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { RxDash } from "react-icons/rx";
 import { BsDot } from "react-icons/bs";
 import { motion } from "framer-motion";
-import logo from '../../public/logotext.svg'
+import logo from "../../public/logotext.svg";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { logOut } from "../Global/Slice/AuthSlice";
 const Sidebar = () => {
   const location = useLocation();
   const [activeItem, setActiveItem] = useState(1);
@@ -56,6 +59,16 @@ const Sidebar = () => {
       setActiveItem(matchingItem.id);
     }
   }, [location.pathname, mainMenu]);
+
+  // for logout
+  const dispatch = useDispatch();
+  const nav = useNavigate();
+
+  const logoutHandler = () => {
+    Cookies.remove("token");
+    dispatch(logOut(null));
+    nav("/login");
+  };
 
   return (
     <div className="w-full flex flex-col justify-center items-center gap-10 my-10">
@@ -114,7 +127,7 @@ const Sidebar = () => {
                 className="text-gray-600 flex flex-col mt-5"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }} 
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
                 {el?.child?.map((ch) => {
@@ -137,10 +150,11 @@ const Sidebar = () => {
                           <motion.div
                             initial={{ scale: 1 }}
                             animate={{
-                              scale:
-                                location.pathname.includes(el.path + "/" + ch.path)
-                                  ? 1.1
-                                  : 1,
+                              scale: location.pathname.includes(
+                                el.path + "/" + ch.path
+                              )
+                                ? 1.1
+                                : 1,
                             }}
                             className={` text-md p-3 rounded-lg`}
                           >
@@ -159,6 +173,8 @@ const Sidebar = () => {
           </div>
         ))}
       </div>
+
+      <button onClick={() => logoutHandler()}>logout</button>
     </div>
   );
 };

@@ -1,74 +1,54 @@
-import React, { useState } from "react";
-import profile from "../../public/cyper.jpg";
-import { Button, Menu, Switch } from "@mantine/core";
-import { IconSettings, IconTrash } from "@tabler/icons-react";
-import { PiDotsSixBold } from "react-icons/pi";
+import React, { useEffect, useState } from "react";
+import { get } from "../Global/api";
+import ProfileCard from "../components/Setting/ProfileCard";
+import CreateMember from "../components/Setting/CreateMember";
+import { useDisclosure } from "@mantine/hooks";
 
 const Setting = () => {
-  const [active, setActive] = useState(false);
-  console.log(active);
+  const [refresh, setRefresh] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await get(`/users`);
+        console.log(response);
+        setData(response?.data?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [refresh]);
+  // for creating member
+  const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <div className="flex flex-col gap-10">
-      <h1 className="text-3xl font-bold text-[#344767]">Setting</h1>
-      {/* profile card  */}
-      <div className=" grid grid-cols-12">
-        <div
-          className={` ${
-            active
-              ? " bg-gradient-to-br from-purple-400 to-purple-600 text-white "
-              : "bg-white text-[#344767]"
-          } flex flex-col col-span-3  rounded-xl p-5 relative shadow-lg gap-5`}
+      {/* title and add member btn  */}
+      <div className="flex justify-between">
+        <h1 className="text-3xl font-bold text-[#344767]">Setting</h1>
+        <button
+          onClick={open}
+          className="px-5 py-3 bg-primary bg-gradient-to-r text-white from-cyan-400 to-cyan-500 rounded-md self-end"
         >
-          {/* for access control  */}
-          <div className="flex justify-between items-center">
-            <Switch
-              onChange={(e) => setActive(e.currentTarget.checked)}
-              checked={active}
-              color="violet"
-            />
-            {/* action  */}
-            <Menu
-              trigger="hover"
-              openDelay={100}
-              closeDelay={100}
-              shadow="md"
-              width={200}
-            >
-              <Menu.Target>
-                <Button style={{ backgroundColor: "transparent" }}>
-                  <PiDotsSixBold
-                    className={`text-2xl ${
-                      active ? "text-white" : "text-gray-600"
-                    } `}
-                  />
-                </Button>
-              </Menu.Target>
-
-              <Menu.Dropdown>
-                <Menu.Label>Access control</Menu.Label>
-
-                <Menu.Item icon={<IconSettings size={14} />}>Edit</Menu.Item>
-                <Menu.Item icon={<IconTrash size={14} />}>Delete</Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          </div>
-          {/* user information  */}
-          <div className="flex gap-10">
-            <img
-              className=" object-cover w-32 h-32 rounded-full "
-              src={profile}
-              alt=""
-            />
-            {/* user information  */}
-            <div className="flex flex-col justify-center gap-2 ">
-              <p className="text-lg font-semibold">Thant Zin</p>
-              <p>Role : admin</p>
-              <p>Bio : Brezz</p>
-            </div>
-          </div>
-        </div>
+          Add New Member
+        </button>
       </div>
+      {/* profile card  */}
+      <div className=" grid grid-cols-12 gap-5">
+        {data?.map((el) => {
+          return <ProfileCard refresh={refresh} setRefresh={setRefresh} el={el} />;
+        })}
+      </div>
+      {/* for creating new member  */}
+      <CreateMember
+        refresh={refresh}
+        setRefresh={setRefresh}
+        opened={opened}
+        close={close}
+      />
     </div>
   );
 };

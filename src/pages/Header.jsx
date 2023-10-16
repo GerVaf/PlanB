@@ -5,7 +5,9 @@ import { HiMiniHome } from "react-icons/hi2";
 import { BsPencilSquare } from "react-icons/bs";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useSelector } from "react-redux";
 
 // Navbar Animate varients
 const navBarVarients = {
@@ -26,6 +28,7 @@ const navBarVarients = {
   },
 }
 
+
 const Header = () => {
   const location = useLocation();
   const nav = useNavigate();
@@ -40,6 +43,8 @@ const Header = () => {
       setShowScrollNav(false);
     }
   });
+
+  const userData = useSelector((state) => state?.user?.user_info);
 
   return (
     <motion.div
@@ -56,7 +61,7 @@ const Header = () => {
       <div className="flex items-center text-gray-600 text-xl gap-5">
         <div className="flex gap-3 items-center">
           <BsPersonCircle />
-          <p className="text-base">Thant Zin</p>
+          <p className="text-base">{userData?.data?.username}</p>
         </div>
         <Link to={"/setting"}>
           <AiFillSetting />

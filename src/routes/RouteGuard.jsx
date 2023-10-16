@@ -5,13 +5,17 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 export const RouteGuard = ({ children }) => {
-  const token = Cookies.get("token");
+  const permissionToken = useSelector(
+    (state) => state?.user?.user_info?.data?.access_token
+  );
+  console.log(permissionToken);
   useEffect(() => {
+    // Cookies.set("token", permissionToken);
     // Function to refresh the token
     const refreshToken = async () => {
       try {
         const response = await axios.get(
-          "https://walrus-app-irtfc.ondigitalocean.app/auth/refresh",
+          "https://api.opaqueindustries.news/auth/refresh",
           {
             headers: {
               "Content-Type": "application/json",
@@ -30,14 +34,12 @@ export const RouteGuard = ({ children }) => {
       }
     };
 
-    if (token) {
+    if (permissionToken) {
       refreshToken();
     }
   }, []);
-  const accData = useSelector((state) => state?.user?.user_info?.data);
-  // console.log(accData);
 
-  if (token || accData?.active === false) return children;
+  if (permissionToken) return children;
   else return <Navigate to="/login" />;
 };
 

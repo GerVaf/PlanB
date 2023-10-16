@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import LogInForm from "../components/LogInForm";
 
 const Login = () => {
   return (
-    <div>Login</div>
-  )
-}
+    <div className="flex bg-black justify-center items-center h-screen">
+      <LogInForm />
+    </div>
+  );
+};
 
-export default Login
+export default Login;
