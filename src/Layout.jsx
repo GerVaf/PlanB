@@ -6,12 +6,12 @@ import Header from "./pages/Header";
 const Layout = () => {
   return (
     <div className="flex h-[100vh]">
-      <div className="w-1/6">
+      <div className="w-1/6 fixed">
         <Sidebar />
       </div>
-      <div className="flex flex-col w-5/6">
+      <div className="flex flex-col w-5/6 ml-[16.6%]">
         <Header />
-        <div className="h-[85%] p-10">
+        <div className="p-10 mt-12">
           {<Outlet />}
         </div>
       </div>
