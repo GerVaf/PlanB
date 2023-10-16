@@ -20,7 +20,7 @@ const Dashboard = () => {
         // console.log(response);
         setData(response?.data?.data);
       } catch (error) {
-        console.log(error);
+        if (error) return window.location.reload();
       }
     };
 
@@ -81,7 +81,9 @@ const Dashboard = () => {
 
         {/* Globe */}
 
-        <div className="col-span-6 mx-auto my-auto ">{/* <Globe/> */}</div>
+        <div className="col-span-6 mx-auto my-auto ">
+          <Globe />
+        </div>
 
         {/* Trending and Latest News */}
         {/* Trending */}

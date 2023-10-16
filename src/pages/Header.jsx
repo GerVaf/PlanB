@@ -5,6 +5,7 @@ import { HiMiniHome } from "react-icons/hi2";
 import { BsPencilSquare } from "react-icons/bs";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const location = useLocation();
@@ -30,6 +31,8 @@ const Header = () => {
     };
   }, []);
 
+  const userData = useSelector((state) => state?.user?.user_info);
+
   return (
     <div
       className={` sticky z-50 h-20 ${
@@ -45,7 +48,7 @@ const Header = () => {
       <div className="flex items-center text-gray-600 text-xl gap-5">
         <div className="flex gap-3 items-center">
           <BsPersonCircle />
-          <p className="text-base">Thant Zin</p>
+          <p className="text-base">{userData?.data?.username}</p>
         </div>
         <Link to={"/setting"}>
           <AiFillSetting />
