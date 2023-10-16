@@ -25,7 +25,7 @@ const DashToDoList = () => {
       </h1>
 
       {/* Lists */}
-      <div className="py-2 h-[500px] overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-700/60 ">
+      <div className="py-2 h-[380px]">
         {data?.map((el) => {
           return (
             <div

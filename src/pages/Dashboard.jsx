@@ -6,8 +6,9 @@ import DashLatest from "../components/Dashboard/DashLatest";
 import { Select } from "@mantine/core";
 import { useState } from "react";
 import DashToDoList from "../components/Dashboard/DashToDoList";
-import Globe from "../components/Dashboard/Globe";
+
 import { get } from "../Global/api";
+import Globe from "../components/Globe/Globe";
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
@@ -81,7 +82,8 @@ const Dashboard = () => {
 
         {/* Globe */}
 
-        <div className="col-span-6 mx-auto my-auto ">
+        <div className="col-span-6 flex justify-center items-center my-auto">
+
           <Globe />
         </div>
 

@@ -238,7 +238,6 @@ const CreateBlog = () => {
             </div>
           </div>
 
-
           {/* bottom btn  */}
           <div className="col-span-12 flex w-full justify-between">
             {/* modal */}
