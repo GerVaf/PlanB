@@ -13,7 +13,7 @@ import Globe from "../components/Globe/Globe";
 const Dashboard = () => {
   const [data, setData] = useState([]);
   const [type, setType] = useState("");
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,7 +75,7 @@ const Dashboard = () => {
           </div>
 
           {/* Todo List */}
-          <div className="col-span-6 mt-5">
+          <div className="col-span-6 mt-5 z-50">
             <DashToDoList />
           </div>
         </div>

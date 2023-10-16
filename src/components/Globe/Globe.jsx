@@ -25,7 +25,6 @@ import PropTypes from "prop-types";
 import * as THREE from "three";
 import { OrbitControls } from "@three-ts/orbit-controls";
 
-
 function Globe({ canvasStyle, ...rest }) {
   const globeRef = useRef(null);
   const canvasRef = useRef(null);
@@ -77,7 +76,12 @@ function Globe({ canvasStyle, ...rest }) {
 
         // eslint-disable-next-line no-restricted-syntax
         for (const point of points) {
-          const { x, y, z } = convertFlatCoordsToSphereCoords(point.x, point.y, width, height);
+          const { x, y, z } = convertFlatCoordsToSphereCoords(
+            point.x,
+            point.y,
+            width,
+            height
+          );
 
           if (x && y && z) {
             pointGeometry.translate(x, y, z);
@@ -112,7 +116,8 @@ function Globe({ canvasStyle, ...rest }) {
       }
 
       function hasWebGL() {
-        const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        const gl =
+          canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
         if (gl && gl instanceof WebGLRenderingContext) {
           return true;
         }
