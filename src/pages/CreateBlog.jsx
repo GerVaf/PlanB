@@ -82,7 +82,7 @@ const CreateBlog = () => {
     post("/blogs", data)
       .then((response) => {
         console.log(response);
-        nav("/pending");
+        nav("/list/pending");
       })
       .catch((error) => console.log(error));
   };

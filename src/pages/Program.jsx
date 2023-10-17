@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ProgramCard from "../components/Program/ProgramCard"; // Import the ProgramCard component
-import { get } from "../Global/api";
+import { get, post } from "../Global/api";
 import { useDispatch, useSelector } from "react-redux";
-import { productionTable } from "../Global/Slice/BlogSlice";
+import { productionTable, programTitle } from "../Global/Slice/BlogSlice";
 import ProgramList from "../components/Table/ProgramList";
+import Loading from "../components/Loading/Loading";
 
 const Program = () => {
+  const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
+
   const [cate, setCate] = useState([
     {
       id: 1,
@@ -62,7 +66,9 @@ const Program = () => {
 
         if (response.status === 200) {
           dispatch(productionTable(null));
+          dispatch(programTitle(response?.data?.data?.map((el) => el.title)));
           setData(response?.data?.data);
+          setLoading(false);
         } else {
           console.error("Failed to fetch datass");
         }
@@ -75,19 +81,41 @@ const Program = () => {
     };
 
     fetchData();
-  }, [cate]);
+  }, [cate, refresh]);
 
   // to look program's blogs
   const ProgramTable = useSelector((state) => state?.blog?.production_table);
-
   console.log(ProgramTable);
 
   const handleItemClick = (item) => {
     dispatch(productionTable(item));
   };
 
+  // for removing blogs from program
+  const removeHandler = (programId, blogId) => {
+    try {
+      const response = post(
+        `/blogs/remove_program_blog/${programId}/${blogId}`
+      );
+      console.log(response);
+      setRefresh(!refresh);
+      dispatch(productionTable(null));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="">
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col">
+      {/* header  */}
       <div className="flex items-center justify-between font-bold">
         <h1 className="text-3xl">Program</h1>
         {/* category  */}
@@ -114,7 +142,7 @@ const Program = () => {
         </div>
       </div>
 
-      {/* program list  */}
+      {/* program card  */}
       <div className="grid grid-cols-3 gap-5 mt-10">
         {data?.map((el) => {
           return (
@@ -123,7 +151,7 @@ const Program = () => {
               key={el.id}
               className=" col-span-1"
             >
-              <ProgramCard el={el} />
+              <ProgramCard refresh={refresh} setRefresh={setRefresh} el={el} />
             </div>
           );
         })}
@@ -140,7 +168,7 @@ const Program = () => {
             There's no blogs!
           </p>
         ) : (
-          <ProgramList />
+          <ProgramList removeHandler={removeHandler} />
         )}
       </div>
     </div>
