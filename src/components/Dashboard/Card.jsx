@@ -1,6 +1,6 @@
 import React from "react";
 import { HiVideoCamera } from "react-icons/hi";
-const Card = ({ data, title }) => {
+const Card = ({ data, title,icon }) => {
   return (
     <div className="flex justify-between items-center bg-white rounded-xl shadow-lg px-3 py-2">
       {/* Left Text and Number */}
@@ -14,7 +14,7 @@ const Card = ({ data, title }) => {
           "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white text-xl p-3 rounded-lg shadow-lg"
         }
       >
-        <HiVideoCamera />
+        {icon}
       </div>
     </div>
   );

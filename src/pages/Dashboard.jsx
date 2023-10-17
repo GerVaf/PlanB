@@ -5,8 +5,9 @@ import DashLatest from "../components/Dashboard/DashLatest";
 import { useState } from "react";
 import DashToDoList from "../components/Dashboard/DashToDoList";
 import { motion } from "framer-motion";
-import { get } from "../Global/api";
-import Globe from "../components/Globe/Globe";
+import { BsExclamationCircleFill } from "react-icons/bs";
+import { HiVideoCamera } from "react-icons/hi";
+import { BiSolidNotepad } from "react-icons/bi";
 
 const Dashboard = () => {
 
@@ -106,24 +107,35 @@ const Dashboard = () => {
           {/* Cards */}
           <div className="grid grid-cols-12 gap-5">
             <div className="col-span-6">
-              <Card title={"Blog Lists"} data={data?.list_count} />
+              <Card
+                title={"Blog Lists"}
+                data={data?.list_count}
+                icon={<BiSolidNotepad />}
+              />
             </div>
             <div className="col-span-6">
-              <Card title={"Pending Lists"} data={data?.pending_count} />
+              <Card
+                title={"Pending Lists"}
+                data={data?.pending_count}
+                icon={<BsExclamationCircleFill />}
+              />
             </div>
             <div className="col-span-6">
-              <Card title={"Program Lists"} data={data?.program_count} />
+              <Card
+                title={"Program Lists"}
+                data={data?.program_count}
+                icon={<HiVideoCamera />}
+              />
             </div>
           </div>
 
           {/* Todo List */}
-          <div className="col-span-6 mt-5">
+          <div className="col-span-6 mt-5 z-50">
             <DashToDoList />
           </div>
         </div>
 
         {/* Globe */}
-
         <div className="col-span-6 flex justify-center items-center my-auto">
           <Globe />
         </div>
