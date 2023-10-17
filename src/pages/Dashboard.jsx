@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import { HiVideoCamera } from "react-icons/hi";
 import { BiSolidNotepad } from "react-icons/bi";
+import Globe from "../components/Globe/Globe";
 
 const Dashboard = () => {
 
@@ -65,7 +66,7 @@ const Dashboard = () => {
         // console.log(response);
         setData(response?.data?.data);
       } catch (error) {
-        if (error) return window.location.reload();
+        if (error?.response?.status === 403) return window.location.reload();
       }
     };
 
