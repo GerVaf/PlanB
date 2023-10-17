@@ -3,10 +3,10 @@ import { RxDash } from "react-icons/rx";
 import { BsExclamationLg } from "react-icons/bs";
 import { useSelector } from "react-redux";
 
-const ProgramList = () => {
+const ProgramList = ({ removeHandler }) => {
   const regex = /(<([^>]+)>)/gi;
   const data = useSelector((state) => state?.blog?.production_table);
-  // console.log(data);
+  console.log(data);
 
   return (
     <>
@@ -54,7 +54,7 @@ const ProgramList = () => {
 
               <p className="col-span-1">{el?.date}</p>
               <div className="col-span-1 text-blue-500 underline cursor-pointer flex items-center justify-center gap-3">
-                <p>Remove</p>
+                <p onClick={()=>removeHandler(data?.id,el?.id)}>Remove</p>
               </div>
             </div>
           );

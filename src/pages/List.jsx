@@ -4,6 +4,12 @@ import ListTable from "../components/Table/ListTable";
 import { useState } from "react";
 import { get } from "../Global/api";
 import { motion } from "framer-motion";
+import Loading from "../components/Loading/Loading";
+import { Button, Modal } from "@mantine/core";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const List = () => {
   const [cate, setCate] = useState([
@@ -26,8 +32,10 @@ const List = () => {
       active: false,
     },
   ]);
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   // for limit
   const [limit, setLimit] = useState(10);
@@ -35,9 +43,9 @@ const List = () => {
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
 
-  // console.log(page)
-  // console.log(limit)
-
+  const program = useSelector((state) => state?.blog?.program_title);
+  // console.log(program);
+  // for showing list
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,15 +65,7 @@ const List = () => {
     };
 
     fetchData();
-  }, [page, limit, cate]);
-
-  if (loading) {
-    return (
-      <div className="text-4xl w-full h-full flex justify-center items-center">
-        Loading. . .
-      </div>
-    );
-  }
+  }, [page, limit, cate, refresh]);
 
   // for cate animation
 
@@ -90,6 +90,83 @@ const List = () => {
       return 0;
     }
   };
+
+  // add to program
+  const token = Cookies.get("token");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [programCate, setProgramCate] = useState("");
+  const [error, setError] = useState(" ");
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // for showing program title
+  const [blogs, setBlogs] = useState([]);
+  const [checkedItems, setCheckedItems] = useState([]);
+  const nav = useNavigate();
+  const AddToProgram = async () => {
+    try {
+      const postData = {
+        title: title,
+        blogs: blogs,
+        category: programCate,
+      };
+
+      const response = await axios.post(
+        "https://api.opaqueindustries.news/programs",
+        postData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Data sent successfully:", response.data);
+
+      // Clear the selected blogs and reset the title
+      setBlogs([]);
+      setCheckedItems([]);
+      setTitle("");
+
+      closeModal();
+      nav("/program");
+    } catch (error) {
+      console.error("Error sending data:", error);
+
+      if (error?.response?.data?.errors?.blogs) {
+        setError("*You have not selected any blogs");
+      }
+      if (
+        error?.response?.data?.errors?.title ||
+        error?.response?.data?.errors?.category
+      ) {
+        setError("*Program Name , Category and Blogs are required");
+      }
+
+      if (error?.response?.data?.message) {
+        setError(
+          "*One of the selected blogs is already associated with this program"
+        );
+      }
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -123,8 +200,8 @@ const List = () => {
       <div className="shadow-lg rounded-md border mt-5">
         {/* Filter entries select and Add program Button*/}
         <div className="px-3 py-5 border-b flex items-center justify-between">
+          {/* litmit of list  */}
           <div className="flex items-center gap-2">
-            {/* Select */}
             <Select
               className="w-[70px]"
               value={limit}
@@ -151,15 +228,27 @@ const List = () => {
               entries per page
             </p>
           </div>
+          {/* add to program  */}
           <div>
-            <button className="p-3 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-xl text-white font-bold shadow-lg hover:shadow hover:to-cyan-400">
-              Create Program ( 0 )
+            <button
+              onClick={openModal}
+              className="p-3 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-xl text-white font-bold shadow-lg hover:shadow hover:to-cyan-400"
+            >
+              Create Program ( {blogs?.length} )
             </button>
           </div>
         </div>
 
         {/* Table */}
-        <ListTable data={data} />
+        <ListTable
+          checkedItems={checkedItems}
+          setCheckedItems={setCheckedItems}
+          blogs={blogs}
+          setBlogs={setBlogs}
+          setRefresh={setRefresh}
+          refresh={refresh}
+          data={data}
+        />
 
         {/* Pagination */}
         <div className="border-t">
@@ -194,6 +283,81 @@ const List = () => {
           </Center>
         </div>
       </div>
+      {/* Add to program  */}
+      <Modal
+        opened={isModalOpen}
+        onClose={closeModal}
+        title="Create Program"
+        size="md"
+      >
+        <p className="text-red-500">{error}</p>
+        {/* Modal content */}
+        <div className="flex flex-col justify-center gap-10 w-full h-full">
+          {/* program select  */}
+          <div className="flex flex-col w-full gap-5">
+            <input
+              type="text"
+              className=" outline-none px-3 py-2 border"
+              placeholder="Enter New Program Name"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+            <p>OR</p>
+
+            <div className="flex flex-col gap-3">
+              <label className="font-bold " htmlFor="">
+                Choose You Created Program
+              </label>
+              <select
+                className="py-2 px-5 outline-none"
+                name=""
+                id=""
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              >
+                <option value="">Select an option</option>
+                {program?.map((el) => (
+                  <option key={el} value={el}>
+                    {el}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* select category  */}
+          <div className="flex flex-col gap-3">
+            <label className="font-bold " htmlFor="">
+              Choose Category
+            </label>
+            <select
+              className="py-2 px-5 outline-none"
+              name=""
+              id=""
+              value={programCate}
+              onChange={(e) => setProgramCate(e.target.value)}
+            >
+              <option value="">Select an option</option>
+              <option value="music">Music</option>
+              <option value="sport">Sport</option>
+            </select>
+          </div>
+
+          {/* button  */}
+          <div className="flex justify-around">
+            {/* Submit button */}
+            <Button variant="primary" onClick={AddToProgram}>
+              Submit
+            </Button>
+
+            {/* Example Close button */}
+            <Button variant="light" onClick={closeModal}>
+              Close
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

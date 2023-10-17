@@ -1,12 +1,37 @@
 import Atropos from "atropos/react";
+import axios from "axios";
+import Cookies from "js-cookie";
 import React from "react";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { MdSportsVolleyball } from "react-icons/md";
 import { useSelector } from "react-redux";
 
-const ProgramCard = ({ el }) => {
+const ProgramCard = ({ refresh, setRefresh, el }) => {
   const ProgramTable = useSelector((state) => state?.blog?.production_table);
-  console.log(ProgramTable);
+  // console.log(ProgramTable);
+
+  // for program delete
+  const token = Cookies.get("token");
+  const deleteHandler = async (id) => {
+    try {
+      const response = await axios.delete(
+        "https://api.opaqueindustries.news/programs",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            id,
+          },
+        }
+      );
+      response;
+      setRefresh(!refresh);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Atropos activeOffset={40} shadow={true} shadowScale={1.05} rotate={true}>
@@ -46,6 +71,7 @@ const ProgramCard = ({ el }) => {
               Blog List : {el?.blog_count}
             </p>
             <button
+              onClick={() => deleteHandler(el?.id)}
               data-atropos-offset="3"
               className="text-base text-start rounded-lg py-1 text-red-500 font-bold"
             >

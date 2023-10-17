@@ -3,10 +3,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { get } from "../Global/api";
 import PendingTable from "../components/Table/PendingTable";
+import Loading from "../components/Loading/Loading";
 
 const Pending = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refresh,setRefresh] = useState(false)
 
   // for limit
   const [limit, setLimit] = useState(10);
@@ -33,12 +35,12 @@ const Pending = () => {
     };
 
     fetchData();
-  }, [page, limit]);
+  }, [page, limit,refresh]);
 
   if (loading) {
     return (
-      <div className="text-4xl w-full h-full flex justify-center items-center">
-        Loading. . .
+      <div className="">
+        <Loading />
       </div>
     );
   }
@@ -86,7 +88,7 @@ const Pending = () => {
         </div>
 
         {/* Table */}
-        <PendingTable data={data} />
+        <PendingTable setRefresh={setRefresh} refresh={refresh} data={data} />
 
         {/* Pagination */}
         <div className="border-t">

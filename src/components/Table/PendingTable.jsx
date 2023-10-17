@@ -1,11 +1,40 @@
 import React from "react";
 import { RxDash } from "react-icons/rx";
 import { BsExclamationLg } from "react-icons/bs";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const PendingTable = ({ data }) => {
+const PendingTable = ({ setRefresh, refresh, data }) => {
   // console.log(data);
 
   const regex = /(<([^>]+)>)/gi;
+  const token = Cookies.get("token");
+
+  const addListHandler = async (e, id) => {
+    e.stopPropagation();
+    try {
+      const response = await axios.post(
+        "https://api.opaqueindustries.news/blogs/published/false",
+        {
+          id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("POST request successful:", response.data);
+      setRefresh(!refresh);
+
+      return response.data;
+    } catch (error) {
+      console.error("POST request error:", error);
+      throw error;
+    }
+  };
 
   return (
     <>
@@ -32,6 +61,7 @@ const PendingTable = ({ data }) => {
               {/* add to list  */}
               <div className="col-span-1 flex justify-center items-center">
                 <p
+                  onClick={(e) => addListHandler(e, el?.id)}
                   className={
                     "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white p-2 rounded-full w-8 transition-all cursor-pointer"
                   }
