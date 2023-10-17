@@ -1,6 +1,6 @@
 import { Center, Modal, Pagination } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { RxCross2 } from "react-icons/rx";
+import { RxCross2, RxDash } from "react-icons/rx";
 import axios from "axios";
 import publish from "../../../public/publish.svg";
 import publishActive from "../../../public/publishActive.svg";
@@ -18,6 +18,8 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
+  const regex = /(<([^>]+)>)/gi;
+  const token = Cookies.get("token");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,8 +64,6 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
 
   // console.log(blogsId);
 
-  const token = Cookies.get("token");
-
   //post to Trend and Latest
   const postHandler = async () => {
     const response = await axios.post(
@@ -79,6 +79,7 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
       }
     );
     setRefresh(!refresh);
+    console.log(refresh);
     handleModalClose();
     console.log(response);
   };
@@ -108,19 +109,24 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
               <RxCross2 />
             </button>
             {/* title  */}
-            <label htmlFor="mission" className="text-2xl font-semibold">
+            <label
+              htmlFor="mission"
+              className="font-bold text-3xl text-[#344767]"
+            >
               All Blogs
             </label>
 
             {/* complete blogs   */}
             <div className="mt-5">
-              {/* Header */}
-              <div className="grid grid-cols-8 items-center text-black text-center text-base font-semibold ">
+              {/* Table Header */}
+              <div className="grid grid-cols-12 items-center text-[#344767] text-center text-base font-semibold border-b py-3">
                 <h1 className="col-span-1"></h1>
                 <h1 className="col-span-1">Publish</h1>
                 <h1 className="col-span-1">Category</h1>
-                <h1 className="col-span-2">Author</h1>
-                <h1 className="col-span-2">Blog Title</h1>
+                <h1 className="col-span-1">Author</h1>
+                <h1 className="col-span-3">Blog Title</h1>
+                <h1 className="col-span-2">Description</h1>
+                <h1 className="col-span-2">Program</h1>
                 <h1 className="col-span-1">Date</h1>
               </div>
 
@@ -132,7 +138,7 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
                       dispatch(addDetail(element));
                       nav("/view");
                     }}
-                    className="grid grid-cols-8 items-center text-center bg-white text-secondary rounded-xl py-3 my-2 transition-colors hover:text-white hover:bg-gray-700"
+                    className="grid grid-cols-12 items-center bg-white text-center py-5 border-b transition-colors hover:bg-gray-200"
                   >
                     <p
                       className="col-span-1 flex justify-center"
@@ -142,7 +148,7 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
                     >
                       <input
                         type="checkbox"
-                        className="w-5 h-5"
+                        className="w-5 h-5 cursor-pointer"
                         checked={blogsId[element.id]}
                         onChange={(e) => handleCheck(e, element)}
                       />
@@ -155,8 +161,25 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
                       />
                     </p>
                     <p className="col-span-1">{element?.category}</p>
-                    <p className="col-span-2">{element?.author}</p>
-                    <p className="col-span-2">{element?.title}</p>
+                    <p className="col-span-1">{element?.author}</p>
+                    <p className="col-span-3">{element?.title}</p>
+                    <p className="col-span-2">
+                      {element?.description
+                        .replace(regex, "")
+                        .replace(
+                          /&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/gi,
+                          " "
+                        )
+                        .substring(0, 10)}
+                      ...
+                    </p>
+                    <p className="col-span-2 flex justify-center">
+                      {element?.programs.length === 0 ? (
+                        <RxDash />
+                      ) : (
+                        element?.programs?.map((el) => el)
+                      )}
+                    </p>
                     <p className="col-span-1">{element?.date}</p>
                   </div>
                 </div>
@@ -171,23 +194,24 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
                   // not([data-disabled]):active
                   styles={{
                     control: {
-                      color: "black",
-                      borderColor: "transparent",
+                      color: "#344767",
+                      borderRadius: "100%",
 
                       "&[data-active]": {
                         borderColor: "white",
-                        backgroundColor: "#3D3F3D",
+                        //   backgroundColor:'#218FFE',
+                        backgroundImage: "linear-gradient(#1BCCE8,#0CBCDA)",
+                        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                       },
                       "&[data-active]&:not([data-disabled]):hover": {
                         backgroundColor: "#3D3F3D70",
                       },
                       "&:not([data-disabled]):hover": {
-                        backgroundColor: "black",
-                        color: "white",
+                        backgroundColor: "#ddd",
                       },
                     },
                     dots: {
-                      color: "white",
+                      color: "black",
                     },
                   }}
                 />
@@ -195,14 +219,16 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
             </div>
 
             {/* add handle  */}
-            <button
-              onClick={() => {
-                postHandler(), close();
-              }}
-              className="py-2 px-8 bg-secondary rounded-md uppercase text-white self-end mt-5"
-            >
-              Add To {parent} News
-            </button>
+            <div className="sticky bottom-0 bg-white/50 backdrop-blur py-3 flex justify-end">
+              <button
+                onClick={() => {
+                  postHandler(), close();
+                }}
+                className="text-base px-5 py-2 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-xl text-white font-bold shadow-lg hover:shadow hover:to-cyan-400"
+              >
+                Add To {parent === "trending" ? "Trending" : "Latest"} News
+              </button>
+            </div>
           </div>
         )}
       </Modal>

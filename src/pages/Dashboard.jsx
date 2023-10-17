@@ -6,14 +6,16 @@ import DashLatest from "../components/Dashboard/DashLatest";
 import { Select } from "@mantine/core";
 import { useState } from "react";
 import DashToDoList from "../components/Dashboard/DashToDoList";
-
 import { get } from "../Global/api";
 import Globe from "../components/Globe/Globe";
+import { BsExclamationCircleFill } from "react-icons/bs";
+import { HiVideoCamera } from "react-icons/hi";
+import { BiSolidNotepad } from "react-icons/bi";
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
   const [type, setType] = useState("");
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -64,13 +66,25 @@ const Dashboard = () => {
           {/* Cards */}
           <div className="grid grid-cols-12 gap-5">
             <div className="col-span-6">
-              <Card title={"Blog Lists"} data={data?.list_count} />
+              <Card
+                title={"Blog Lists"}
+                data={data?.list_count}
+                icon={<BiSolidNotepad />}
+              />
             </div>
             <div className="col-span-6">
-              <Card title={"Pending Lists"} data={data?.pending_count} />
+              <Card
+                title={"Pending Lists"}
+                data={data?.pending_count}
+                icon={<BsExclamationCircleFill />}
+              />
             </div>
             <div className="col-span-6">
-              <Card title={"Program Lists"} data={data?.program_count} />
+              <Card
+                title={"Program Lists"}
+                data={data?.program_count}
+                icon={<HiVideoCamera />}
+              />
             </div>
           </div>
 
@@ -81,9 +95,7 @@ const Dashboard = () => {
         </div>
 
         {/* Globe */}
-
         <div className="col-span-6 flex justify-center items-center my-auto">
-
           <Globe />
         </div>
 
