@@ -30,7 +30,7 @@ const DashTrending = () => {
   const removeHandler = async (id) => {
     try {
       const response = await axios.post(
-        `https://api.opaqueindustries.news/blogs/remove_tag/${id}/trending`,
+        `https://api.admin.opaqueindustries.news/blogs/remove_tag/${id}/trending`,
         {},
         {
           headers: {
