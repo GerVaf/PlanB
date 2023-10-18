@@ -67,7 +67,7 @@ const TrendLatestModal = ({ opened, close, refresh, setRefresh, parent }) => {
   //post to Trend and Latest
   const postHandler = async () => {
     const response = await axios.post(
-      `https://api.opaqueindustries.news/blogs/tag/${parent}`,
+      `https://api.admin.opaqueindustries.news/blogs/tag/${parent}`,
       {
         blogs: blogsId,
       },

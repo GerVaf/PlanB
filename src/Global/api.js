@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const token = Cookies.get("token");
 // console.log(token)
 
-const baseUrl = "https://api.opaqueindustries.news";
+const baseUrl = "https://api.admin.opaqueindustries.news";
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,

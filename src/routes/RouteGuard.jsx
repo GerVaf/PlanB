@@ -8,14 +8,14 @@ export const RouteGuard = ({ children }) => {
   const permissionToken = useSelector(
     (state) => state?.user?.user_info?.data?.access_token
   );
-  console.log(permissionToken);
+  // console.log(permissionToken);
   useEffect(() => {
     // Cookies.set("token", permissionToken);
     // Function to refresh the token
     const refreshToken = async () => {
       try {
         const response = await axios.get(
-          "https://api.opaqueindustries.news/auth/refresh",
+          "https://api.admin.opaqueindustries.news/auth/refresh",
           {
             headers: {
               "Content-Type": "application/json",

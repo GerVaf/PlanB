@@ -16,7 +16,7 @@ const ProfileCard = ({ refresh, setRefresh, el }) => {
   const deleteHandler = async (id) => {
     try {
       const response = await axios.delete(
-        `https://api.opaqueindustries.news/users`,
+        `https://api.admin.opaqueindustries.news/users`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const ProfileCard = ({ refresh, setRefresh, el }) => {
   const activeHandler = async (id, status) => {
     try {
       const response = await axios.post(
-        `https://api.opaqueindustries.news/users/change_status`,
+        `https://api.admin.opaqueindustries.news/users/change_status`,
         {
           id,
           status: status ? "false" : "true",

@@ -48,7 +48,7 @@ const ListTable = ({
   // for publish blogs
   const publishHandler = async (id, is_published) => {
     const response = await axios.post(
-      `https://api.opaqueindustries.news/blogs/published/${
+      `https://api.admin.opaqueindustries.news/blogs/published/${
         is_published ? "false" : "true"
       }`,
       {
@@ -61,7 +61,7 @@ const ListTable = ({
         },
       }
     );
-    response;
+    console.log(response);
     setRefresh(!refresh);
   };
 
@@ -88,7 +88,7 @@ const ListTable = ({
     e.stopPropagation();
     try {
       const response = await axios.delete(
-        "https://api.opaqueindustries.news/blogs",
+        "https://api.admin.opaqueindustries.news/blogs",
         {
           headers: {
             "Content-Type": "application/json",
@@ -106,19 +106,44 @@ const ListTable = ({
     }
   };
 
+  // for permission manage
+  const userData = useSelector((state) => state?.user?.user_info?.data);
+
   return (
     <>
       {/* Table Header */}
       <div className="grid grid-cols-12 items-center text-[#344767] text-center text-base font-semibold border-b py-3">
         <h1 className="col-span-1"></h1>
-        <h1 className="col-span-1">Publish</h1>
+
+        {/* permission manage  */}
+        {userData?.role === "admin" ? (
+          <h1 className="col-span-1">Publish</h1>
+        ) : (
+          ""
+        )}
+
         <h1 className="col-span-1">Category</h1>
         <h1 className="col-span-1">Author</h1>
+        {userData?.role === "admin" ? "" : <h1 className="col-span-1"></h1>}
         <h1 className="col-span-3">Blog Title</h1>
         <h1 className="col-span-2">Description</h1>
         <h1 className="col-span-1">Program</h1>
-        <h1 className="col-span-1">Date</h1>
-        <h1 className="col-span-1">Action</h1>
+
+        {/* base on role ui change  */}
+        <h1
+          className={`${
+            userData?.role === "admin" ? "col-span-1" : "col-span-2"
+          }`}
+        >
+          Date
+        </h1>
+
+        {/* permission manage  */}
+        {userData?.role === "admin" ? (
+          <h1 className="col-span-1">Action</h1>
+        ) : (
+          ""
+        )}
       </div>
 
       {/* Table Row */}
@@ -138,20 +163,29 @@ const ListTable = ({
                 />
               </div>
 
-              {/* publish  */}
-              <div
-                onClick={(e) => handlePublish(e, el?.id, el?.is_published)}
-                className="col-span-1 cursor-pointer flex justify-center items-center"
-              >
-                <img
-                  src={el?.is_published ? publishActive : publish}
-                  alt=""
-                  className="w-8 h-8"
-                />
-              </div>
+              {/* publish and permission manage  */}
+              {userData?.role === "admin" ? (
+                <div
+                  onClick={(e) => handlePublish(e, el?.id, el?.is_published)}
+                  className="col-span-1 cursor-pointer flex justify-center items-center"
+                >
+                  <img
+                    src={el?.is_published ? publishActive : publish}
+                    alt=""
+                    className="w-8 h-8"
+                  />
+                </div>
+              ) : (
+                ""
+              )}
 
               <p className="col-span-1">{el?.category}</p>
               <p className="col-span-1">{el?.author}</p>
+              {userData?.role === "admin" ? (
+                ""
+              ) : (
+                <h1 className="col-span-1"></h1>
+              )}
               <p className="col-span-3">{el?.title}</p>
               {/* description  */}
               <p className="col-span-2">
@@ -173,25 +207,36 @@ const ListTable = ({
                 )}
               </p>
 
-              <p className="col-span-1">{el?.date}</p>
+              {/* base on role ui change  */}
+              <p
+                className={`${
+                  userData?.role === "admin" ? "col-span-1" : "col-span-2"
+                }`}
+              >
+                {el?.date}
+              </p>
 
-              {/* edit and delete  */}
-              <div className="col-span-1 text-blue-500 underline cursor-pointer flex items-center justify-center gap-3">
-                <p
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch(addDetail(el));
-                    nav(`/edit`);
-                  }}
-                >
-                  Edit
-                </p>
-                {el?.is_published ? (
-                  " "
-                ) : (
-                  <p onClick={(e) => handleDelete(e, el?.id)}>Delete</p>
-                )}
-              </div>
+              {/* edit and delete and permisson manage  */}
+              {userData?.role === "admin" ? (
+                <div className="col-span-1 text-blue-500 underline cursor-pointer flex items-center justify-center gap-3">
+                  <p
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(addDetail(el));
+                      nav(`/edit`);
+                    }}
+                  >
+                    Edit
+                  </p>
+                  {el?.is_published ? (
+                    " "
+                  ) : (
+                    <p onClick={(e) => handleDelete(e, el?.id)}>Delete</p>
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           );
         })}
