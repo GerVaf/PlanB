@@ -8,7 +8,7 @@ export const RouteGuard = ({ children }) => {
   const permissionToken = useSelector(
     (state) => state?.user?.user_info?.data?.access_token
   );
-  console.log(permissionToken);
+  // console.log(permissionToken);
   useEffect(() => {
     // Cookies.set("token", permissionToken);
     // Function to refresh the token

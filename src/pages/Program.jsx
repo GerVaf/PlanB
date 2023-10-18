@@ -85,7 +85,7 @@ const Program = () => {
 
   // to look program's blogs
   const ProgramTable = useSelector((state) => state?.blog?.production_table);
-  console.log(ProgramTable);
+  // console.log(ProgramTable);
 
   const handleItemClick = (item) => {
     dispatch(productionTable(item));
@@ -105,6 +105,11 @@ const Program = () => {
     }
   };
 
+  // for permission manage
+  const userData = useSelector(
+    (state) => state?.user?.user_info?.data
+  );
+
   if (loading) {
     return (
       <div className="">
@@ -114,63 +119,76 @@ const Program = () => {
   }
 
   return (
-    <div className="flex flex-col">
-      {/* header  */}
-      <div className="flex items-center justify-between font-bold">
-        <h1 className="text-3xl">Program</h1>
-        {/* category  */}
-        <div className="bg-violet-100 p-1 rounded-2xl">
-          <div className="flex relative">
-            {cate.map((el) => {
+    <div className="flex flex-col gap-10">
+      <h1 className="text-3xl">Program</h1>
+      {userData?.role === "admin" ? (
+        <>
+          {/* header  */}
+          <div className="flex items-center justify-between font-bold">
+            <h1 className="text-3xl">Program</h1>
+            {/* category  */}
+            <div className="bg-violet-100 p-1 rounded-2xl">
+              <div className="flex relative">
+                {cate.map((el) => {
+                  return (
+                    <div
+                      key={el.id}
+                      className={`bg-violet-100 w-32 px-10 py-1 cursor-pointer`}
+                      onClick={() => handleCategoryClick(el.id)}
+                    >
+                      <p className="relative z-20 text-center">{el.title}</p>
+                    </div>
+                  );
+                })}
+                <motion.div
+                  className="z-10 absolute w-32 h-full rounded-xl bg-white"
+                  initial={{ right: getActiveDivRight() }}
+                  animate={{ right: getActiveDivRight() }}
+                  transition={{ duration: 0.3 }}
+                ></motion.div>
+              </div>
+            </div>
+          </div>
+
+          {/* program card  */}
+          <div className="grid grid-cols-3 gap-5 mt-10">
+            {data?.map((el) => {
               return (
                 <div
+                  onClick={() => handleItemClick(el)}
                   key={el.id}
-                  className={`bg-violet-100 w-32 px-10 py-1 cursor-pointer`}
-                  onClick={() => handleCategoryClick(el.id)}
+                  className=" col-span-1"
                 >
-                  <p className="relative z-20 text-center">{el.title}</p>
+                  <ProgramCard
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                    el={el}
+                  />
                 </div>
               );
             })}
-            <motion.div
-              className="z-10 absolute w-32 h-full rounded-xl bg-white"
-              initial={{ right: getActiveDivRight() }}
-              animate={{ right: getActiveDivRight() }}
-              transition={{ duration: 0.3 }}
-            ></motion.div>
           </div>
-        </div>
-      </div>
 
-      {/* program card  */}
-      <div className="grid grid-cols-3 gap-5 mt-10">
-        {data?.map((el) => {
-          return (
-            <div
-              onClick={() => handleItemClick(el)}
-              key={el.id}
-              className=" col-span-1"
-            >
-              <ProgramCard refresh={refresh} setRefresh={setRefresh} el={el} />
-            </div>
-          );
-        })}
-      </div>
-
-      {/* program including blogs  */}
-      <div className="mt-20">
-        {ProgramTable === null ? (
-          <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
-            Select one of program!
-          </p>
-        ) : ProgramTable?.blog_count === 0 ? (
-          <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
-            There's no blogs!
-          </p>
-        ) : (
-          <ProgramList removeHandler={removeHandler} />
-        )}
-      </div>
+          {/* program including blogs  */}
+          <div className="mt-20">
+            {ProgramTable === null ? (
+              <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
+                Select one of program!
+              </p>
+            ) : ProgramTable?.blog_count === 0 ? (
+              <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
+                There's no blogs!
+              </p>
+            ) : (
+              <ProgramList removeHandler={removeHandler} />
+            )}
+          </div>
+        </>
+      ) : (
+        <p className=" text-center text-xl">
+          You don't have permission cuz you aren't admin.
+        </p>
+      )}
     </div>
   );
 };

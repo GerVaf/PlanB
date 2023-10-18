@@ -25,7 +25,7 @@ const Pending = () => {
         const response = await get(
           `/blogs?pending=true&page=${page}&limit=${limit}`
         );
-        // console.log(response);
+        console.log(response);
         setData(response?.data?.data);
         setPagination(response?.data?.pagination);
         setLoading(false);
@@ -51,7 +51,7 @@ const Pending = () => {
       <h1 className="font-bold text-3xl text-[#344767]">Pending Blogs</h1>
       <div className="shadow-lg rounded-md border mt-5">
         {/* Filter entries select and Add program Button*/}
-        <div className="px-3 py-5 border-b flex items-center justify-between">
+        <div className="px-3 py-5 border-b flex items-center justify-start">
           <div className="flex items-center gap-2">
             {/* Select */}
             <Select
@@ -80,11 +80,7 @@ const Pending = () => {
               entries per page
             </p>
           </div>
-          <div>
-            <button className="p-3 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-xl text-white font-bold shadow-lg hover:shadow hover:to-cyan-400">
-              Create Program ( 0 )
-            </button>
-          </div>
+          
         </div>
 
         {/* Table */}

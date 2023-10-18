@@ -9,9 +9,9 @@ import { BsExclamationCircleFill } from "react-icons/bs";
 import { HiVideoCamera } from "react-icons/hi";
 import { BiSolidNotepad } from "react-icons/bi";
 import Globe from "../components/Globe/Globe";
+import { get } from "../Global/api";
 
 const Dashboard = () => {
-
   const [cate, setCate] = useState([
     {
       id: 1,
@@ -63,7 +63,7 @@ const Dashboard = () => {
         const response = await get(
           `/dashboard?category=${cate.find((category) => category.active).name}`
         );
-        // console.log(response);
+        console.log(response);
         setData(response?.data?.data);
       } catch (error) {
         if (error?.response?.status === 403) return window.location.reload();
@@ -137,7 +137,7 @@ const Dashboard = () => {
         </div>
 
         {/* Globe */}
-        <div className="col-span-6 flex justify-center items-center my-auto">
+        <div className="col-span-6 z-40 flex justify-center items-center my-auto">
           <Globe />
         </div>
 

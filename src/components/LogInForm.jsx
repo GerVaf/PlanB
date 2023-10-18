@@ -39,7 +39,7 @@ const LogInForm = () => {
         }
       );
 
-      // console.log(response);
+      console.log(response);
 
       const token = response?.data?.data?.access_token;
 

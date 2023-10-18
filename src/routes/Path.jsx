@@ -14,6 +14,8 @@ import BlogView from "../pages/BlogView";
 import Login from "../pages/Login";
 import RouteGuard from "./RouteGuard";
 import Pending from "../pages/Pending";
+import CreateWithEditor from "../components/CreateBlog/CreateWithEditor.jsx/CreateWithEditor";
+import CreateWithDrapAndDrop from "../components/CreateBlog/CreateWithDrapAndDrop/CreateWithDrapAndDrop";
 
 const Path = () => {
   const routes = [
@@ -28,6 +30,13 @@ const Path = () => {
     {
       path: "create",
       element: <CreateBlog />,
+    },
+    {
+      path: "create/editor",
+      element: <CreateWithEditor />,
+    },{
+      path: "create/drop",
+      element: <CreateWithDrapAndDrop />,
     },
     {
       path: "edit",

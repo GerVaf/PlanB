@@ -283,6 +283,7 @@ const List = () => {
           </Center>
         </div>
       </div>
+      
       {/* Add to program  */}
       <Modal
         opened={isModalOpen}
