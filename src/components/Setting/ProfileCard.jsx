@@ -107,7 +107,7 @@ const ProfileCard = ({ refresh, setRefresh, el }) => {
       {/* user information  */}
       <div className="flex gap-10">
         <div className="w-32 h-32 rounded-full overflow-hidden bg-white">
-          <img className=" object-cover  " src={el?.profile?.url} alt="" />
+          <img className=" w-full h-full object-cover  " src={el?.profile?.url} alt="" />
         </div>
         {/* user information  */}
         <div className="flex flex-col justify-center gap-2 ">

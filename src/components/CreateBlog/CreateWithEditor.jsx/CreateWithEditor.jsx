@@ -5,10 +5,12 @@ import { useNavigate } from "react-router";
 import { useDisclosure } from "@mantine/hooks";
 import { post } from "../../../Global/api";
 import NoteModal from "../NoteModal";
+import TextEditorTest from "../../TextEditorTest";
 
 const CreateWithEditor = () => {
   const nav = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [model, setModel] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -90,7 +92,7 @@ const CreateWithEditor = () => {
   // for note modal
   const [opened, { open, close }] = useDisclosure(false);
 
-//   console.log(formData);
+  //   console.log(formData);
   return (
     <div>
       <div className="font-bold text-3xl text-[#344767]">Create Blog</div>
@@ -210,30 +212,10 @@ const CreateWithEditor = () => {
             </div>
             {/* content  */}
             <div className="col-span-12">
-              <SunEditor
-                height="500px"
-                setOptions={{
-                  buttonList: [
-                    ["undo", "redo"],
-                    ["font", "fontSize", "formatBlock"],
-                    [
-                      "bold",
-                      "underline",
-                      "italic",
-                      "strike",
-                      "subscript",
-                      "superscript",
-                    ],
-                    ["fontColor", "hiliteColor", "textStyle"],
-                    ["removeFormat"],
-                    ["outdent", "indent"],
-                    ["align", "horizontalRule", "list", "table"],
-                    ["link", "image"],
-                    ["fullScreen", "showBlocks", "codeView"],
-                    ["preview"],
-                  ],
-                }}
-                onChange={handleEditorChange}
+              <TextEditorTest
+                model={model}
+                setModel={setModel}
+                handleEditorChange={handleEditorChange}
               />
             </div>
           </div>
