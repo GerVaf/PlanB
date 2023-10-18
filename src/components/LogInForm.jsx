@@ -29,7 +29,7 @@ const LogInForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://api.opaqueindustries.news/auth/login",
+        "https://api.admin.opaqueindustries.news/auth/login",
         formData,
         {
           headers: {

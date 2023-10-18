@@ -48,7 +48,7 @@ const ListTable = ({
   // for publish blogs
   const publishHandler = async (id, is_published) => {
     const response = await axios.post(
-      `https://api.opaqueindustries.news/blogs/published/${
+      `https://api.admin.opaqueindustries.news/blogs/published/${
         is_published ? "false" : "true"
       }`,
       {
@@ -88,7 +88,7 @@ const ListTable = ({
     e.stopPropagation();
     try {
       const response = await axios.delete(
-        "https://api.opaqueindustries.news/blogs",
+        "https://api.admin.opaqueindustries.news/blogs",
         {
           headers: {
             "Content-Type": "application/json",

@@ -15,7 +15,7 @@ export const RouteGuard = ({ children }) => {
     const refreshToken = async () => {
       try {
         const response = await axios.get(
-          "https://api.opaqueindustries.news/auth/refresh",
+          "https://api.admin.opaqueindustries.news/auth/refresh",
           {
             headers: {
               "Content-Type": "application/json",

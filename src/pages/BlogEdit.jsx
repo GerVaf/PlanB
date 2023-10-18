@@ -4,11 +4,21 @@ import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
 import { patch } from "../Global/api";
 import { useNavigate } from "react-router-dom";
+import TextEditorTest from "../components/TextEditorTest";
+import FroalaEditor from "react-froala-wysiwyg";
+import "froala-editor/js/plugins/image.min.js";
+import "froala-editor/js/plugins/char_counter.min.js";
+import "froala-editor/css/froala_style.min.css";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+import "froala-editor/js/plugins/align.min.js";
+import "froala-editor/js/plugins/font_family.min.js";
+import "froala-editor/js/plugins/font_size.min.js";
+import "froala-editor/js/plugins/line_height.min.js";
 
 const BlogEdit = () => {
   const data = useSelector((state) => state.blog.detailBlog);
   const [selectedImage, setSelectedImage] = useState(data?.images?.url);
-
+  const [model, setModel] = useState(data?.description);
   const nav = useNavigate();
   const [formData, setFormData] = useState({
     title: data?.title,
@@ -72,7 +82,7 @@ const BlogEdit = () => {
     data.append("description", formData.description);
     data.append("date", formData.date);
     data.append("id", formData.id);
-    console.log("Submitted data:", data);
+    // console.log("Submitted data:", data);
 
     patch("/blogs", data).then((response) => {
       console.log(response);
@@ -90,11 +100,12 @@ const BlogEdit = () => {
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
-
-  window.scrollTo({
-    'top':0,
-    'behavior':"smooth"
-  })
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   return (
     <div>
@@ -215,31 +226,10 @@ const BlogEdit = () => {
             </div>
             {/* content  */}
             <div className="col-span-12">
-              <SunEditor
-                height="500px"
-                setOptions={{
-                  buttonList: [
-                    ["undo", "redo"],
-                    ["font", "fontSize", "formatBlock"],
-                    [
-                      "bold",
-                      "underline",
-                      "italic",
-                      "strike",
-                      "subscript",
-                      "superscript",
-                    ],
-                    ["fontColor", "hiliteColor", "textStyle"],
-                    ["removeFormat"],
-                    ["outdent", "indent"],
-                    ["align", "horizontalRule", "list", "table"],
-                    ["link", "image"],
-                    ["fullScreen", "showBlocks", "codeView"],
-                    ["preview"],
-                  ],
-                }}
-                defaultValue={formData.description}
-                onChange={handleEditorChange}
+              <TextEditorTest
+                model={model}
+                setModel={setModel}
+                handleEditorChange={handleEditorChange}
               />
             </div>
           </div>

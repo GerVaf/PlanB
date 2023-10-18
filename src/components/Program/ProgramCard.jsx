@@ -15,7 +15,7 @@ const ProgramCard = ({ refresh, setRefresh, el }) => {
   const deleteHandler = async (id) => {
     try {
       const response = await axios.delete(
-        "https://api.opaqueindustries.news/programs",
+        "https://api.admin.opaqueindustries.news/programs",
         {
           headers: {
             "Content-Type": "application/json",

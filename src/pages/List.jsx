@@ -120,7 +120,7 @@ const List = () => {
       };
 
       const response = await axios.post(
-        "https://api.opaqueindustries.news/programs",
+        "https://api.admin.opaqueindustries.news/programs",
         postData,
         {
           headers: {

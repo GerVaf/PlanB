@@ -5,10 +5,12 @@ import { post } from "../Global/api";
 import { useNavigate } from "react-router";
 import { useDisclosure } from "@mantine/hooks";
 import NoteModal from "../components/CreateBlog/NoteModal";
+import TextEditorTest from "../components/TextEditorTest";
 
 const CreateBlog = () => {
   const nav = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [model,setModel] = useState('');
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -210,7 +212,8 @@ const CreateBlog = () => {
             </div>
             {/* content  */}
             <div className="col-span-12">
-              <SunEditor
+            <TextEditorTest model={model} setModel={setModel} handleEditorChange={handleEditorChange}/>
+              {/* <SunEditor
                 height="500px"
                 setOptions={{
                   buttonList: [
@@ -234,7 +237,7 @@ const CreateBlog = () => {
                   ],
                 }}
                 onChange={handleEditorChange}
-              />
+              /> */}
             </div>
           </div>
 

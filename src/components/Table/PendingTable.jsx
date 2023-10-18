@@ -3,10 +3,14 @@ import { RxDash } from "react-icons/rx";
 import { BsExclamationLg } from "react-icons/bs";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addDetail } from "../../Global/Slice/BlogSlice";
 
 const PendingTable = ({ setRefresh, refresh, data }) => {
   // console.log(data);
-
+  const nav = useNavigate();
+  const dispatch = useDispatch();
   const regex = /(<([^>]+)>)/gi;
   const token = Cookies.get("token");
 
@@ -95,7 +99,15 @@ const PendingTable = ({ setRefresh, refresh, data }) => {
 
               <p className="col-span-1">{el?.date}</p>
               <div className="col-span-1 text-blue-500 underline cursor-pointer flex items-center justify-center gap-3">
-                <p>Edit</p>
+                <p
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(addDetail(el));
+                    nav(`/edit`);
+                  }}
+                >
+                  Edit
+                </p>
                 <p>Delete</p>
               </div>
             </div>
