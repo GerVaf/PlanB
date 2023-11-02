@@ -36,10 +36,10 @@ const Setting = () => {
         <>
           {/* title and add member btn  */}
           <div className="flex justify-between">
-            <h1 className="text-3xl font-bold text-[#344767]">Setting</h1>
+            <h1 className="text-3xl font-bold text-[#344767] dark:text-white">Setting</h1>
             <button
               onClick={open}
-              className="px-5 py-3 bg-primary bg-gradient-to-r text-white from-cyan-400 to-cyan-500 rounded-md self-end"
+              className="px-5 py-3 bg-primary bg-gradient-to-r text-white from-cyan-400 to-cyan-500 rounded-md self-end dark:from-iconActive dark:to-blue-600"
             >
               Add New Member
             </button>

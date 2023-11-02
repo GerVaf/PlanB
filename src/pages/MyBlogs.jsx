@@ -48,10 +48,10 @@ const MyBlogs = () => {
   return (
     <div>
       {/* Header */}
-      <h1 className="font-bold text-3xl text-[#344767]">Pending Blogs</h1>
-      <div className="shadow-lg rounded-md border mt-5">
+      <h1 className="font-bold text-3xl text-[#344767] dark:text-white">My Blogs</h1>
+      <div className="shadow-lg rounded-md border mt-5 dark:bg-secondary dark:border-primary">
         {/* Filter entries select and Add program Button*/}
-        <div className="px-3 py-5 border-b flex items-center justify-start">
+        <div className="px-3 py-5 border-b flex items-center justify-start dark:border-primary">
           <div className="flex items-center gap-2">
             {/* Select */}
             <Select
@@ -76,7 +76,7 @@ const MyBlogs = () => {
                 },
               }}
             />
-            <p className="text-sm font-semibold text-gray-700">
+            <p className="text-sm font-semibold text-gray-700 dark:text-white">
               entries per page
             </p>
           </div>
@@ -91,7 +91,7 @@ const MyBlogs = () => {
         />
 
         {/* Pagination */}
-        <div className="border-t">
+        <div className="border-t dark:border-primary">
           <Center my={"lg"}>
             <Pagination
               onChange={setPage}

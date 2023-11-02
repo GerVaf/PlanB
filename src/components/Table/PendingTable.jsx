@@ -75,7 +75,7 @@ const PendingTable = ({parent, setRefresh, refresh, data }) => {
   return (
     <>
       {/* Table Header */}
-      <div className="grid grid-cols-12 items-center text-[#344767] text-center text-base font-semibold border-b py-3">
+      <div className="grid grid-cols-12 items-center text-[#344767] text-center text-base font-semibold border-b py-3 dark:border-primary dark:text-white">
         {/* permission manage  */}
         {userData?.role === "admin" ? (
           <h1 className="col-span-1">Add to list</h1>
@@ -104,7 +104,7 @@ const PendingTable = ({parent, setRefresh, refresh, data }) => {
           return (
             <div
               key={el.id}
-              className="grid grid-cols-12 items-center text-center py-5 border-b transition-colors hover:bg-gray-200"
+              className="grid grid-cols-12 items-center text-center py-5 border-b transition-colors hover:bg-gray-200 dark:border-primary dark:bg-secondary dark:hover:bg-primary dark:text-white"
             >
               {/* add to list and permission manage  */}
               {userData?.role === "admin" ? (
@@ -112,7 +112,7 @@ const PendingTable = ({parent, setRefresh, refresh, data }) => {
                   <p
                     onClick={(e) => addListHandler(e, el?.id)}
                     className={
-                      "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white p-2 rounded-full w-8 transition-all cursor-pointer"
+                      "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white p-2 rounded-full w-8 transition-all cursor-pointerdark:from-iconActive dark:to-blue-600"
                     }
                   >
                     <BsExclamationLg />

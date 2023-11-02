@@ -112,7 +112,7 @@ const ListTable = ({
   return (
     <>
       {/* Table Header */}
-      <div className="grid grid-cols-12 items-center text-[#344767] text-center text-base font-semibold border-b py-3">
+      <div className="grid grid-cols-12 items-center text-[#344767] dark:text-white dark:border-secondary dark:bg-secondary text-center text-base font-semibold border-b py-3">
         <h1 className="col-span-1"></h1>
 
         {/* permission manage  */}
@@ -152,7 +152,7 @@ const ListTable = ({
           return (
             <div
               key={el.id}
-              className="grid grid-cols-12 items-center text-center py-5 border-b transition-colors hover:bg-gray-200"
+              className="grid grid-cols-12 items-center text-center py-5 border-b transition-colors hover:bg-gray-200 dark:border-secondary dark:bg-secondary dark:text-white dark:hover:bg-primary"
             >
               <div className="col-span-1 flex justify-center items-center">
                 <input

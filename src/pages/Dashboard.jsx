@@ -77,7 +77,7 @@ const Dashboard = () => {
     <div className="">
       {/* Header */}
       <div className="flex items-center justify-between gap-3">
-        <h1 className="font-bold text-3xl text-[#344767]">Dashboard</h1>
+        <h1 className="font-bold text-3xl text-[#344767] dark:text-white">Dashboard</h1>
         {/* category  */}
         <div className="bg-violet-100 p-1 rounded-2xl">
           <div className="flex relative">

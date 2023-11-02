@@ -120,12 +120,12 @@ const Program = () => {
 
   return (
     <div className="flex flex-col gap-10">
-      <h1 className="text-3xl">Program</h1>
+      {/* <h1 className="text-3xl">Program</h1> */}
       {userData?.role === "admin" ? (
         <>
           {/* header  */}
           <div className="flex items-center justify-between font-bold">
-            <h1 className="text-3xl">Program</h1>
+            <h1 className="text-3xl dark:text-white">Program</h1>
             {/* category  */}
             <div className="bg-violet-100 p-1 rounded-2xl">
               <div className="flex relative">
@@ -172,7 +172,7 @@ const Program = () => {
           {/* program including blogs  */}
           <div className="mt-20">
             {ProgramTable === null ? (
-              <p className="w-full h-full mt-20 text-xl flex justify-center items-center">
+              <p className="w-full h-full mt-20 text-xl flex justify-center items-center dark:text-white">
                 Select one of program!
               </p>
             ) : ProgramTable?.blog_count === 0 ? (

@@ -172,7 +172,7 @@ const List = () => {
     <div>
       {/* Header */}
       <div className="flex justify-between">
-        <h1 className="font-bold text-3xl text-[#344767]">Blog List</h1>
+        <h1 className="font-bold text-3xl text-[#344767] dark:text-white">Blog List</h1>
         {/* category  */}
         <div className="bg-violet-100 p-1 rounded-2xl">
           <div className="flex relative">
@@ -197,9 +197,9 @@ const List = () => {
         </div>
       </div>
       {/* body  */}
-      <div className="shadow-lg rounded-md border mt-5">
+      <div className="shadow-lg rounded-md border mt-5 dark:bg-secondary dark:border-primary">
         {/* Filter entries select and Add program Button*/}
-        <div className="px-3 py-5 border-b flex items-center justify-between">
+        <div className="px-3 py-5 border-b flex items-center justify-between dark:border-primary">
           {/* litmit of list  */}
           <div className="flex items-center gap-2">
             <Select
@@ -224,7 +224,7 @@ const List = () => {
                 },
               }}
             />
-            <p className="text-sm font-semibold text-gray-700">
+            <p className="text-sm font-semibold text-gray-700 dark:text-white">
               entries per page
             </p>
           </div>
@@ -232,7 +232,7 @@ const List = () => {
           <div>
             <button
               onClick={openModal}
-              className="p-3 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-xl text-white font-bold shadow-lg hover:shadow hover:to-cyan-400"
+              className="p-3 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-xl text-white font-bold shadow-lg hover:shadow hover:to-cyan-400 dark:from-iconActive dark:to-blue-600"
             >
               Create Program ( {blogs?.length} )
             </button>
@@ -251,7 +251,7 @@ const List = () => {
         />
 
         {/* Pagination */}
-        <div className="border-t">
+        <div className="border-t dark:border-primary">
           <Center my={"lg"}>
             <Pagination
               onChange={setPage}

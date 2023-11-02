@@ -30,9 +30,9 @@ const DashToDoList = () => {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-xl overflow-hidden">
+    <div className="bg-white shadow-lg rounded-xl overflow-hidden dark:bg-secondary">
       {/* Header */}
-      <h1 className="font-semibold text-[#344767] text-lg p-5 border-b sticky top-0 bg-white">
+      <h1 className="font-semibold text-[#344767] text-lg p-5 border-b sticky top-0 bg-white dark:bg-secondary dark:text-white dark:border-primary">
         Todo List
       </h1>
 
@@ -46,7 +46,7 @@ const DashToDoList = () => {
               <div
                 key={el?.id}
                 onClick={() => nav("/list/pending")}
-                className="px-5 py-3 m-2 cursor-pointer rounded-md flex justify-between items-center border overflow-hidden transition-shadow hover:shadow-md"
+                className="px-5 py-3 m-2 cursor-pointer rounded-md flex justify-between items-center border overflow-hidden transition-shadow hover:shadow-md dark:text-white dark:border-primary"
               >
                 <div className="w-1/2 flex flex-col gap-2">
                   {/* Author */}

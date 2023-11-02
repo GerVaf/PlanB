@@ -44,14 +44,14 @@ const DashLatest = () => {
         setRefresh={setRefresh}
         parent={"latest"}
       />
-      <div className="bg-white shadow-lg rounded-xl">
+      <div className="bg-white shadow-lg rounded-xl dark:bg-secondary">
         {/* Header */}
-        <div className="flex justify-between items-center p-5 border-b">
-          <h1 className="font-semibold text-[#344767] text-lg">Latest News</h1>
+        <div className="flex justify-between items-center p-5 border-b dark:border-primary">
+          <h1 className="font-semibold text-[#344767] text-lg dark:text-white">Latest News</h1>
           <div
             onClick={open}
             className={
-              "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white text-xl p-3 rounded-lg shadow-lg cursor-pointer transition hover:shadow hover:to-cyan-400"
+              "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white text-xl p-3 rounded-lg shadow-lg cursor-pointer transition hover:shadow hover:to-cyan-400 dark:from-iconActive dark:to-blue-600"
             }
           >
             <BsFillPlusSquareFill />
@@ -67,12 +67,12 @@ const DashLatest = () => {
               return (
                 <div
                   key={el.id}
-                  className="my-3 grid grid-cols-12 rounded-md border overflow-hidden relative transition-shadow hover:shadow-lg"
+                  className="my-3 grid grid-cols-12 rounded-md border overflow-hidden relative transition-shadow hover:shadow-lg dark:border-primary"
                 >
                   {/* image  */}
                   <div className="col-span-5">
                     <img
-                      className="w-full h-full object-cover"
+                      className="aspect-square"
                       src={el?.images.url}
                       alt=""
                     />
@@ -81,19 +81,19 @@ const DashLatest = () => {
                   <div className="col-span-7 flex flex-col gap-4 w-full p-3">
                     {/* category and delete  */}
                     <div className="flex justify-between items-center gap-2">
-                      <p className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-cyan-500 text-white rounded-full py-1 px-5">
+                      <p className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-cyan-500 text-white rounded-full py-1 px-5 dark:from-iconActive dark:to-blue-600">
                         {el?.category}
                       </p>
                       <div
                         className={
-                          "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white p-2 rounded-lg transition-all cursor-pointer hover:text-red-600 hover:from-white hover:shadow-lg"
+                          "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white p-2 rounded-lg transition-all cursor-pointer hover:text-red-600 hover:from-white hover:shadow-lg dark:from-iconActive dark:to-blue-600"
                         }
                       >
                         <MdRemoveCircle />
                       </div>
                     </div>
                     {/* title and author  */}
-                    <div className="h-full flex gap-2 flex-col">
+                    <div className="h-full flex gap-2 flex-col dark:text-white">
                       <p className="text-lg font-semibold">{el?.title}</p>
                       <p className="text-base">{el?.author}</p>
                     </div>

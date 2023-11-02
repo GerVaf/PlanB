@@ -7,10 +7,11 @@ import { RxDash } from "react-icons/rx";
 import { BsDot } from "react-icons/bs";
 import { motion } from "framer-motion";
 import logo from "../../public/logotext.svg";
+import whitelogo from "../../public/whiteLogo.svg";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { logOut } from "../Global/Slice/AuthSlice";
-const Sidebar = () => {
+const Sidebar = ({darkMode}) => {
   const location = useLocation();
   const [activeItem, setActiveItem] = useState(1);
 
@@ -71,9 +72,9 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-full h-[100vh] flex flex-col justify-between items-center gap-10 py-10">
+    <div className="w-full h-[100vh] flex flex-col justify-between items-center gap-10 py-10 dark:bg-secondary dark:backdrop-blur-md">
       <div className="flex flex-col gap-5">
-        <img className="px-10 h-20 border-b-2 w-full" src={logo} alt="" />
+        <img className="px-10 h-20 border-b-2 w-full" src={darkMode ? whitelogo : logo} alt="" />
         <div className="w-[90%] flex flex-col gap-8">
           {mainMenu.map((el) => (
             <div key={el.id}>
@@ -83,7 +84,7 @@ const Sidebar = () => {
                 animate={{ scale: 1 }}
                 to={el.path}
                 className={`${
-                  activeItem === el.id ? "bg-white shadow-lg " : ""
+                  activeItem === el.id ? "bg-white shadow-lg dark:bg-primary" : ""
                 } py-3 rounded-lg cursor-pointer text-gray-500 flex justify-between px-10 items-center`}
               >
                 {/* icon and name */}
@@ -96,7 +97,7 @@ const Sidebar = () => {
                     }}
                     className={`${
                       activeItem === el.id
-                        ? "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white shadow-lg "
+                        ? "bg-gradient-to-r from-cyan-400 to-cyan-500 text-white shadow-lg dark:from-iconActive dark:to-blue-600"
                         : "bg-white "
                     } text-md p-3 rounded-lg shadow-lg`}
                   >
@@ -143,9 +144,9 @@ const Sidebar = () => {
                           to={el.path + "/" + ch.path}
                           className={`${
                             location.pathname.includes(el.path + "/" + ch.path)
-                              ? "text-gray-800 font-bold"
+                              ? "text-gray-800 font-bold dark:text-white"
                               : ""
-                          } py-3 rounded-lg cursor-pointer text-gray-500 flex justify-between px-10 items-center`}
+                          } py-3 rounded-lg cursor-pointer text-gray-500 flex justify-between px-10 items-center dark:text-white`}
                         >
                           <div className="flex gap-5 items-center">
                             <motion.div
